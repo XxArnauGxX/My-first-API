@@ -1,24 +1,26 @@
-import fs from 'fs-extra'; // "fs-extra" añade métodos adicionales a fs
+import fs from 'fs-extra';
 
-const sourceDir = './src/web/views'; // Directorio de origen de tus archivos EJS
-const destDir = './dist/web/views'; // Destino donde quieres que estén tus archivos EJS
+const sourceDir = './src/web/views';
+const destDir = './dist/web/views';
 
-// Asegurarte de que el directorio destino existe
-fs.ensureDir(destDir, (err) => {
+fs.ensureDir(sourceDir, (err) => {
   if (err) {
-    console.error('Error al crear directorio:', err);
+    console.error('Error al crear el directorio de origen:', err);
     return;
   }
 
-  console.log('Directorio creado con éxito.');
-
-  // Copia todo desde el directorio de origen al destino, creando el destino si no existe
-  fs.cp(sourceDir, destDir, { recursive: true }, (err) => {
+  fs.ensureDir(destDir, (err) => {
     if (err) {
-      console.log(err);
-      console.error('Error al copiar archivos EJS:', err);
-    } else {
-      console.log('Archivos EJS copiados con éxito.');
+      console.error('Error al crear el directorio destino:', err);
+      return;
     }
+
+    fs.cp(sourceDir, destDir, { recursive: true }, (err) => {
+      if (err) {
+        console.error('Error al copiar archivos EJS:', err);
+      } else {
+        console.log('Archivos EJS copiados con éxito.');
+      }
+    });
   });
 });
