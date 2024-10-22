@@ -14,6 +14,11 @@ const port = process.env.PORT || 3000;
 // Configurar el motor de vistas
 configViewEngine(app);
 
+// Ruta para la raíz
+app.get('/', (req, res) => {
+  res.send('Bienvenido a la API. Visita /api/info para obtener información.');
+});
+
 app.get('/api/info', (req, res) => {
   const response = {
     classMembers: [
